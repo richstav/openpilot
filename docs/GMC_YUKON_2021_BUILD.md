@@ -7,109 +7,133 @@
 | **Vehicle** | 2021 GMC Yukon Denali Ultimate |
 | **VIN** | `1GKS2DKL4MR220264` |
 | **Platform** | GM T1XX (shared with Sierra 1500, Silverado 1500, Tahoe 2021) |
-| **Trim** | Denali Ultimate (top trim — includes Driver Alert Package II standard) |
+| **Trim** | Denali Ultimate — Driver Alert Package II **standard** |
+| **Engine** | 6.2L EcoTec3 V8 |
+| **Assembly** | Arlington, TX |
 | **OnStar** | Active — Connected by OnStar Canada |
 
-### VIN Decode — `1GKS2DKL4MR220264`
-| Position | Value | Meaning |
+---
+
+## Hardware Status ✔️
+
+| Component | Status | Notes |
 |---|---|---|
-| 1 | `1` | USA-manufactured |
-| 2–3 | `GK` | General Motors (GMC) |
-| 4 | `S` | SUV / Multipurpose |
-| 5 | `2` | Yukon |
-| 6 | `D` | Denali |
-| 7 | `K` | Engine: 6.2L EcoTec3 V8 |
-| 8 | `L` | GVWR Class |
-| 9 | `4` | Check digit |
-| 10 | `M` | Model year: **2021** |
-| 11 | `R` | Assembly plant: Arlington, TX |
-| 12–17 | `220264` | Sequential serial number |
-
-> **Key confirmation:** Denali Ultimate trim includes **Driver Alert Package II** as standard equipment, which bundles **ACC (Adaptive Cruise Control)** and **LKAS (Lane Keep Assist System)** — both required for openpilot.
+| comma four | ✅ **In hand** | Selected GM harness via comma.ai dropdown |
+| GM Harness + Harness Box | ✅ **In hand** | Standard 2x9-pin GM harness from comma.ai |
+| comma pedal | ❌ Not needed | Denali Ultimate has factory ACC |
+| Windshield mount | 🔲 Recommended | BearTech Slidemount C4 or comma.ai mount |
 
 ---
 
-## Hardware Required
+## Software Choice
 
-| Component | Notes |
-|---|---|
-| comma four | $999 @ comma.ai/shop |
-| GM Harness + Harness Box | Standard GM harness (2x9 pin box) from BearTech or Comma |
-| comma pedal | **NOT required** — Denali Ultimate has factory ACC |
-| Ethernet cable (11ft+) | Avoid flat/noodle cables |
-| BearTech Slidemount C4 | Windshield mount for comma four |
+### ✅ Recommended: Start with Official openpilot
+- **Install URL:** `openpilot.comma.ai` (enter this on comma four first boot)
+- **Why:** Sierra 1500 Denali 2021 (same T1XX platform) is officially supported
+- **Expected behavior:** Yukon will auto-fingerprint as Sierra 1500 Denali on first boot
+- **If it doesn’t fingerprint:** See CAN fingerprint section below
 
-> **Harness Note:** 2021 GMC Yukon Denali uses the **standard GM Harness & Harness Box** (NOT ASCM, NOT SDGM).
-> Reference: https://docs.innoisle.com/car-make/gm-vehicles
-
----
-
-## Software Recommendation
-
-### ✅ Option 1: Official openpilot (Best Starting Point)
-- Install URL: `openpilot.comma.ai`
-- Branch: `release-mici` (comma four)
-- 2021 GMC Sierra 1500 Denali is officially supported; Yukon Denali shares identical T1XX CAN bus
-- **Prediction:** The Yukon will auto-fingerprint as Sierra 1500 Denali 2021 on first boot
-
-### Option 2: SunnyPilot Fork
-- Adds M.A.D.S. (Modified Assistive Driving Safety)
-- Independent steering/speed toggle — steering stays on when you adjust speed
-- Install: https://smiskol.com/fork/sunnyhaibin/sunnypilot
-- **Recommended if** you want more control over when openpilot engages
-
-### Option 3: FrogPilot Fork
-- Advanced features, experimental longitudinal control
-- Install: https://smiskol.com/fork/FrogAi/FrogPilot
+### Alternative: SunnyPilot (after confirming basic functionality)
+- Adds **M.A.D.S.** — independent steering/speed engagement
+- Install URL: `https://smiskol.com/fork/sunnyhaibin/sunnypilot`
 
 ---
 
-## CAN Bus / Fingerprint
+## Physical Installation — Step by Step
 
-The 2021 GMC Yukon Denali shares the GM T1XX platform with:
-- GMC Sierra 1500 Denali 2020–2021 ✅ (officially supported)
-- Chevy Silverado 1500 High Country 2020–2021 ✅ (officially supported)
-- Chevy Tahoe/Suburban 2021 ✅ (same platform)
+> **Before you begin:** Park on level ground, engine OFF, key out. Do NOT turn on ignition during install.
 
-**Key fingerprint files in openpilot (opendbc submodule):**
-- `opendbc/car/gm/fingerprints.py` — vehicle fingerprints
-- `opendbc/car/gm/values.py` — CAR enum and feature flags
-- `opendbc/car/gm/carstate.py` — CAN signal parsing
-- `opendbc/car/gm/interface.py` — car interface & speed/steering limits
+### Step 1 — Locate Harness Connector
+- Open the driver’s door and look at the **rearview mirror housing** at the top of the windshield
+- The GM harness connects to the **mirror bracket connector** (grey plug, near the headliner)
+- On the Yukon Denali, the connector is typically behind a small trim piece that pops off with a plastic pry tool
+
+### Step 2 — Connect the GM Harness
+1. **Disconnect** the existing mirror connector (squeeze tabs and pull firmly)
+2. **Plug** the harness inline — one end to the car's connector, one end back to the mirror
+3. The harness only connects one way — you cannot plug it in wrong
+4. Route the **white ethernet cable** down toward the dash (tuck behind headliner trim)
+
+### Step 3 — Route the Ethernet Cable
+1. Gently pull the **A-pillar trim** (driver side) — it pops off with light pressure
+2. Route the ethernet cable down the A-pillar, tucking it behind the trim
+3. Feed cable under the dash toward the center windshield mount area
+4. Leave ~12 inches of slack near the windshield for the comma four connection
+5. Reinstall A-pillar trim (press back firmly until clips snap)
+
+### Step 4 — Mount the comma four
+1. Clean windshield with isopropyl alcohol where you’ll mount
+2. Position the mount **behind the rearview mirror**, centered on the windshield
+   - Must be in the forward-facing camera’s clear zone (no tint, no defrost lines)
+3. Press mount firmly for 30+ seconds
+4. Attach comma four to the mount
+5. Connect the **ethernet cable** to the comma four (port on the bottom)
+
+### Step 5 — First Boot & Software Setup
+1. Turn ignition ON (engine off is fine)
+2. comma four powers on automatically via the harness
+3. Follow on-screen setup:
+   - Connect to WiFi
+   - Enter software URL: **`openpilot.comma.ai`**
+   - Wait for download (~500MB, takes 5–10 min on good WiFi)
+4. Device will reboot into openpilot
+5. It will prompt you to **drive for calibration** — do a 15+ min highway drive
+
+### Step 6 — Verify Fingerprint
+- After first drive, check: **Settings → Device → Car fingerprint**
+- Expected: `GMC Sierra 1500 Limited Denali 2021` or similar T1XX variant
+- If unrecognized: see CAN Fingerprint section below
 
 ---
 
-## Installation Steps
+## CAN Fingerprint — If Yukon Not Recognized
 
-1. ✅ VIN confirmed — Denali Ultimate has ACC + LKAS standard
-2. Order: **comma four** + **GM harness** + **harness box** from [comma.ai](https://comma.ai/shop) or [BearTech](https://docs.innoisle.com)
-3. Mount comma four on windshield (BearTech Slidemount C4 recommended for clean install)
-4. Plug harness into rearview mirror housing connector
-5. Power on comma four → enter setup → enter software URL
-6. Use `openpilot.comma.ai` for stock OR a fork URL for enhanced features
-7. Complete calibration drive (highway preferred, >15 mins)
-8. Check `/data/log` for fingerprint match if vehicle not auto-recognized
+If openpilot doesn’t auto-detect your Yukon, you’ll need to capture the fingerprint.
+
+**Method 1: Force fingerprint via SSH**
+```bash
+# SSH into comma four (Settings > Developer > Enable SSH)
+ssh comma@[device-ip]
+cat /data/params/d/CarParams | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('carFingerprint','NOT DETECTED'))"
+```
+
+**Method 2: Use openpilot tools**
+- Run `tools/car_porting/examples/find_segments_with_message.ipynb` from this repo
+- Compare against Sierra 1500 Denali 2021 fingerprint in `opendbc/car/gm/fingerprints.py`
+
+**If fingerprint differs from Sierra:**
+1. Capture full CAN fingerprint output
+2. Submit PR to [commaai/opendbc](https://github.com/commaai/opendbc) adding Yukon Denali 2021
+3. Reference PR template from existing GM vehicles
+
+---
+
+## Key opendbc Files for GM
+- [`opendbc/car/gm/fingerprints.py`](https://github.com/commaai/opendbc/blob/master/opendbc/car/gm/fingerprints.py) — vehicle fingerprints
+- [`opendbc/car/gm/values.py`](https://github.com/commaai/opendbc/blob/master/opendbc/car/gm/values.py) — CAR enum and feature flags
+- [`opendbc/car/gm/interface.py`](https://github.com/commaai/opendbc/blob/master/opendbc/car/gm/interface.py) — car interface & speed/steering limits
 
 ---
 
 ## Community Resources
-
 - comma.ai Discord: https://discord.comma.ai → `#gm` channel
-- OPGM repo (archived, merged to mainline): https://github.com/opgm/openpilot-1
 - BearTech GM Vehicle Guide: https://docs.innoisle.com/car-make/gm-vehicles
-- commaai/opendbc (fingerprints): https://github.com/commaai/opendbc
+- commaai/opendbc: https://github.com/commaai/opendbc
 - openpilot supported cars: https://docs.comma.ai/CARS/
 
 ---
 
-## Status
+## Build Status
 
 - [x] VIN confirmed: `1GKS2DKL4MR220264`
 - [x] Trim confirmed: Denali Ultimate (ACC + LKAS standard)
 - [x] Platform confirmed: GM T1XX
 - [x] Harness type confirmed: Standard GM Harness + Box
-- [ ] Hardware ordered
-- [ ] comma four installed
-- [ ] First boot fingerprint test
-- [ ] If unrecognized: capture CAN fingerprint and compare vs Sierra 1500 Denali 2021
-- [ ] If fingerprint differs: submit PR to commaai/opendbc for official Yukon Denali 2021 support
+- [x] comma four: **in hand**
+- [x] GM harness: **in hand**
+- [ ] Physical harness installed in vehicle
+- [ ] comma four mounted on windshield
+- [ ] First boot completed, software URL entered
+- [ ] Calibration drive completed
+- [ ] Fingerprint verified
+- [ ] (If needed) CAN fingerprint captured + PR submitted to commaai/opendbc
