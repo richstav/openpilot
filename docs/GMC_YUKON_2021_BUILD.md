@@ -29,8 +29,8 @@
 
 ### ✅ Recommended: Start with Official openpilot
 - **Install URL:** `openpilot.comma.ai` (enter this on comma four first boot)
-- **Why:** Sierra 1500 Denali 2021 (same T1XX platform) is officially supported
-- **Expected behavior:** Yukon will auto-fingerprint as Sierra 1500 Denali on first boot
+- **Why:** GMC Sierra 1500 2020-21 is on [comma.ai/vehicles](https://comma.ai/vehicles); same T1XX platform as your Yukon
+- **Expected behavior:** Yukon may auto-fingerprint as **GMC Sierra 1500** or **GMC Yukon** (opendbc has Yukon **2019-20**; 2021 may still match Sierra)
 - **If it doesn’t fingerprint:** See CAN fingerprint section below
 
 ### Alternative: SunnyPilot (after confirming basic functionality)
@@ -42,47 +42,55 @@
 ## Physical Installation — Step by Step
 
 > **Before you begin:** Park on level ground, engine OFF, key out. Do NOT turn on ignition during install.
+>
+> **Official visual guide (use this):** [comma.ai/setup](https://comma.ai/setup) — animated steps for GM harness + comma four.
 
-### Step 1 — Locate Harness Connector
-- Open the driver’s door and look at the **rearview mirror housing** at the top of the windshield
-- The GM harness connects to the **mirror bracket connector** (grey plug, near the headliner)
-- On the Yukon Denali, the connector is typically behind a small trim piece that pops off with a plastic pry tool
+### What’s in the GM harness kit
+| Part | Purpose |
+|---|---|
+| Y-harness (2× grey connectors) | Inline at the forward camera / LKAS connector behind the mirror |
+| Harness box | Small box with USB-C; mounts inside mirror housing |
+| Comma power tap | Plugs into harness box (standby power) |
+| **OBD-C cable (~1.5 ft)** | Harness box → comma four bottom USB-C (**not** a regular ethernet cable) |
 
-### Step 2 — Connect the GM Harness
-1. **Disconnect** the existing mirror connector (squeeze tabs and pull firmly)
-2. **Plug** the harness inline — one end to the car's connector, one end back to the mirror
-3. The harness only connects one way — you cannot plug it in wrong
-4. Route the **white ethernet cable** down toward the dash (tuck behind headliner trim)
+### Step 1 — Remove mirror trim
+Pop the plastic shroud at the base of the rearview mirror (plastic pry tool). You’ll see the grey multi-pin LKAS/camera connector.  
+Reference: [comma.ai/setup](https://comma.ai/setup) → select **GMC** → harness install animation.
 
-### Step 3 — Route the Ethernet Cable
-1. Gently pull the **A-pillar trim** (driver side) — it pops off with light pressure
-2. Route the ethernet cable down the A-pillar, tucking it behind the trim
-3. Feed cable under the dash toward the center windshield mount area
-4. Leave ~12 inches of slack near the windshield for the comma four connection
-5. Reinstall A-pillar trim (press back firmly until clips snap)
+### Step 2 — Unplug factory camera connector
+Press the **red safety tab down**, then squeeze the grey release and pull straight out.
 
-### Step 4 — Mount the comma four
-1. Clean windshield with isopropyl alcohol where you’ll mount
-2. Position the mount **behind the rearview mirror**, centered on the windshield
-   - Must be in the forward-facing camera’s clear zone (no tint, no defrost lines)
-3. Press mount firmly for 30+ seconds
-4. Attach comma four to the mount
-5. Connect the **ethernet cable** to the comma four (port on the bottom)
+### Step 3 — Install Y-harness inline
+- One Y leg → camera module  
+- Other Y leg → factory harness you unplugged  
+- Adhere harness box inside the mirror cavity (adhesive on box)
 
-### Step 5 — First Boot & Software Setup
-1. Turn ignition ON (engine off is fine)
-2. comma four powers on automatically via the harness
-3. Follow on-screen setup:
-   - Connect to WiFi
-   - Enter software URL: **`openpilot.comma.ai`**
-   - Wait for download (~500MB, takes 5–10 min on good WiFi)
-4. Device will reboot into openpilot
-5. It will prompt you to **drive for calibration** — do a 15+ min highway drive
+### Step 4 — Connect OBD-C cable
+Plug **USB-C** into the harness box. Route the short OBD-C out the **bottom** of the housing toward the windshield mount (~6″ slack).  
+**Do not** route down the A-pillar — the included cable is too short. **Never** use a standard ethernet patch cable.
 
-### Step 6 — Verify Fingerprint
-- After first drive, check: **Settings → Device → Car fingerprint**
-- Expected: `GMC Sierra 1500 Limited Denali 2021` or similar T1XX variant
-- If unrecognized: see CAN Fingerprint section below
+### Step 5 — Mount comma four
+1. Clean windshield with isopropyl alcohol (behind / beside mirror, clear of tint and defrost lines)  
+2. Press mount 30–60 seconds  
+3. Slide comma four onto mount  
+4. Plug OBD-C into the **bottom USB-C** until fully seated
+
+### Step 6 — Reinstall trim
+Tuck harness box inside; ensure OBD-C is not pinched. Snap trim back until clips engage.
+
+### Step 7 — First boot & software
+1. Ignition ON (engine off OK)  
+2. WiFi → software URL: **`openpilot.comma.ai`**  
+3. Wait for download (~5–15 min)  
+4. Highway drive 15+ min for calibration
+
+### Step 8 — Verify fingerprint
+**Settings → Device → Car fingerprint**  
+Expected: `GMC Sierra 1500 2020-21` or similar T1XX name.  
+Upstream `opendbc` also lists **GMC Yukon 2019-20**; a 2021 may match Sierra or need a new fingerprint — see CAN section below.
+
+### Optional: OBD-II standby cable
+A separate **OBD-C** from the OBD-II port to comma four is optional (standby power / updates with engine off). Not required for normal driving if the harness provides power.
 
 ---
 
